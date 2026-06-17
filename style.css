@@ -34,7 +34,7 @@ body {
     color: var(--text-body);
     background-color: var(--bg-color);
     line-height: 1.7;
-    padding-top: var(--header-height);
+    padding-top: 0;
 }
 
 /* Header & Progress Bar */
@@ -99,14 +99,17 @@ body {
 
 /* Hero Section */
 .hero {
-    min-height: calc(100vh - var(--header-height));
+    min-height: 100vh;
+    padding-top: var(--header-height);
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle at top right, #0F2027, #203A43, #2C5364);
+    background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
     color: var(--white);
     text-align: center;
-    padding: 30px 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
     position: relative;
     overflow: hidden;
 }
@@ -209,7 +212,7 @@ body {
 
 .accordion-header h2 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.25rem;
     font-weight: 800;
     color: var(--primary);
     letter-spacing: -0.5px;
@@ -335,13 +338,16 @@ td {
 
 .action-text {
     display: block;
-    color: var(--text-muted);
+    color: #475569;
+    background-color: #F1F5F9;
     font-style: italic;
-    font-size: 0.95rem;
-    margin-top: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 16px;
     margin-bottom: 16px;
-    padding-left: 12px;
-    border-left: 2px solid rgba(0,0,0,0.1);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px dashed #CBD5E1;
 }
 
 .dialogue-card > .action-text:first-of-type {
@@ -349,10 +355,7 @@ td {
 }
 
 span.action-text {
-    display: inline;
-    border: none;
-    padding: 0;
-    color: var(--text-muted);
+    display: block;
 }
 
 .block-action {
@@ -439,10 +442,10 @@ span.action-text {
 .text-danger { color: #d32f2f; font-weight: 600; }
 .text-example { color: #D97706; font-weight: 800; font-size: 0.85rem; letter-spacing: 1px; }
 .text-secondary-muted { color: var(--secondary); font-style: italic; }
-.action-espirito { color: var(--c-espirito); }
-.action-inimigo { color: var(--c-inimigo); }
-.action-espirito-normal { color: var(--c-espirito); }
-.action-secondary { color: var(--secondary); }
+.action-espirito { color: var(--c-espirito); background-color: #EFF6FF; border-color: #BFDBFE; }
+.action-inimigo { color: var(--c-inimigo); background-color: #FEF2F2; border-color: #FECACA; }
+.action-espirito-normal { color: var(--c-espirito); background-color: #EFF6FF; border-color: #BFDBFE; }
+.action-secondary { color: var(--secondary); background-color: #F0F9FF; border-color: #BAE6FD; }
 .tag-audio { background: #fce7f3; color: #db2777; }
 .text-uppercase-bold { font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
 
