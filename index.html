@@ -34,10 +34,13 @@
             </div>
         </section>
 
-        <!-- Detalhes da Peça (Standalone Section) -->
-        <div class="details-section">
-            <h2 class="details-title">Detalhes da Peça</h2>
-            <div class="details-content">
+        <!-- Scene 1: Detalhes -->
+        <section class="scene accordion expanded" id="scene-1" data-title="Detalhes e Figurinos">
+            <div class="accordion-header" onclick="toggleAccordion('scene-1')">
+                <h2>Detalhes da Peça</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
                 <div class="card info-card">
                     <h3><i class="fa-solid fa-users"></i> 7 Participantes</h3>
                     <div class="table-wrapper">
@@ -74,9 +77,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Scene 1: Narração Inicial -->
+        <!-- Narração Inicial -->
         <section class="scene accordion expanded" id="scene-2" data-title="Narração Inicial">
             <div class="accordion-header" onclick="toggleAccordion('scene-2')">
                 <h2>Narração Inicial</h2>
@@ -84,7 +87,7 @@
             </div>
             <div class="accordion-content">
                 <div class="dialogue-card c-narracao">
-                    <div class="char-name">NARRADOR</div>
+                    <div class="char-name"><i class="fa-solid fa-microphone"></i> NARRADOR</div>
                     <p>A família não foi ideia do homem.</p>
                     <p><strong>A FAMÍLIA É UM PROJETO DE DEUS.</strong></p>
                     <p>Ela nasceu no coração de Deus como um lugar de amor, proteção, honra, perdão e presença de Deus.</p>
@@ -198,7 +201,7 @@
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO > FILHA</div>
                     <p>Ah… ela.<br>Essa aí nem eu suporto.<br>Coisinha frágil, chata, melancólica, dramática…</p>
                     <p>Sempre querendo atenção.<br>Mas sabe o que é pior?<br>Ninguém percebe ela mesmo kk</p>
                     <p>Vai. Fala rápido nojenta.</p>
@@ -309,26 +312,26 @@
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO > FILHA</div>
                     <p>Fica no quarto.<br>Fecha a porta e se mata!.<br>Não adianta falar com ninguém.</p>
                     <p>Você sabe que não tem saída.<br>Sua vida nunca vai mudar!<br>Tá na hora de você acabar com isso!</p>
                     <span class="action-text">[A FILHA se ajoelha ou senta no chão > Inimigo entrega uma faca > FILHA fica em CRISE chorando e negando, resistindo]</span>
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO - FILHO</div>
                     <p>Esse lugar não é pra você!<br>Essa casa é uma prisão!<br>Ninguém nunca vai te entender;<br>Na rua você é alguém.<br>Vai embora.<br>Se afunda de uma vez nas drogas.</p>
                     <span class="action-text">[FILHO fica irritado pega a mochila e saí de casa]</span>
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO - PAI</div>
                     <p>Olha para essa casa, essa mulher, esses filhos.<br>Tudo saiu do seu controle.<br>E essa vagabunda ainda quer colocar a culpa em você!<br>Ela é a culpada!<br>Chegou a hora de dar um basta.<br>Mostra quem manda.</p>
                     <span class="action-text">[INIMIGO levanta a camisa dele mostrando a arma na cintura]</span>
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO - MÃE</div>
                     <p>Fofoqueira, maldita, você é joio na igreja.<br>Você jamais será usada como deseja.<br>Seu ministério está morto.<br>Sua casa é um desastre.<br>Seus filhos são meus.<br>Seu marido está com outra na rua!<br>Ele não te ama!<br>Você sempre carregou tudo sozinha.<br>Ele é o culpado!<br>Reage.<br>Humilha ele.</p>
                     <p><strong>O INIMIGO COLOCA UM DE FRENTE PRO OUTRO E TOCA NA MENTE DELES E ELES COMEÇAM A DISCUTIR. O PONTO FINAL DA DISCUSSÃO É <span class="text-danger">ELA DÁ UM TAPA NA CARA DELE E ELE PUXA A ARMA.</span></strong></p>
                     <span class="action-text">[ A CENA PAUSA / CONGELA]</span>
@@ -374,7 +377,7 @@
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > MÃE</div>
                     <p>Filha, volte para Mim.<br>Antes de restaurar sua casa.<br>Eu preciso restaurar o seu coração.</p>
                     <p>Antes de reconstruir sua família, eu quero reconstruir o altar que se apagou dentro de você.</p>
                     <p>Volte para mim.</p>
@@ -383,7 +386,7 @@
                 </div>
 
                 <div class="dialogue-card c-mae">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">MÃE > ESPÍRITO SANTO</div>
                     <p>Senhor…Eu me perdi. Me afastei da Tua presença.<br>Eu servi sem amor. Eu corrigi sem escutar.<br>Eu cuidei da casa, mas esqueci do lar.<br>Eu desejei o altar; e não ser o altar.<br>Deixei minha própria família sangrando</p>
                     <p>Eu queria que minha família te encontrasse…<br>mas eles não estavam Te vendo em mim.</p>
                     <p>Me perdoa. Restaura primeiro a mim.</p>
@@ -391,7 +394,7 @@
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > PAI</div>
                     <p>Filho… Eu sou o Deus da sua esposa!<br>Eu vi o homem escondido atrás de toda essa raiva.</p>
                     <p>Você passou a vida tentando parecer forte em meio a dor.<br>Mas usa essa dor para justificar ausência e dureza.<br>Chega de fugir</p>
                     <p>Ser cabeça não é dominar.<br>É proteger, cuidar e amar.</p>
@@ -399,7 +402,7 @@
                 </div>
 
                 <div class="dialogue-card c-pai">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">PAI > ESPÍRITO SANTO</div>
                     <span class="action-text">[Resistente, mas quebrando aos poucos.]</span>
                     <p>Eu não sei fazer isso. Eu não sei o que falar.<br>Mas eu reconheço que estava aqui… sem estar.</p>
                     <p>Eu fugia porque não sabia lidar.<br>E isso só piorou tudo!<br>Eu gritava porque não sabia pedir perdão.<br>Mas eu não quero mais ser assim!</p>
@@ -421,14 +424,14 @@
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO > FILHO</div>
                     <p>Essa casa não é pra você eu tenho o que você precisa.<br>Seus pais te odeiam.<br>Até morar na rua é melhor que sua casa.</p>
                     <p class="action-text action-espirito">[O Espírito Santo se levanta e vai em direção ao Filho, que está afastado, ainda com a mochila]</p>
                     <p class="action-text action-inimigo">[O diabo se afasta aos poucos e vai pra filha e oprime ela]</p>
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > FILHO</div>
                     <p>Filho…Eu sou Deus e Tenho olhado para você!<br>Você não precisa fugir.</p>
                     <p>Eu sei que você está cansado.<br>Cresceu ouvindo sobre mim, mas nem sempre me viu.<br>Confundiu religião vazia com quem Eu Sou.</p>
                     <p>Eu não sou a acusação que te feriu.<br>Eu não sou o peso que colocaram sobre você.<br>Eu Sou Jesus.</p>
@@ -438,7 +441,7 @@
                 </div>
 
                 <div class="dialogue-card c-filho">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">FILHO > ESPÍRITO SANTO</div>
                     <span class="action-text">[Ainda duro, mas com a voz começando a falhar.]</span>
                     <p>Como assim? Que voz é essa?<br>Voltar para quê?<br>Para ser julgado de novo?<br>Com certeza vão me receber com crítica dizendo tudo que faço de errado!</p>
                     <span class="action-text">[pausa]</span>
@@ -450,7 +453,7 @@
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > FILHO</div>
                     <p>Seus pais te amam!<br>Ainda há lugar para você nesta casa.</p>
                     <span class="action-text action-espirito-normal">[O Filho chega cai de joelhos e abraça os pais. A Mãe eo Pai choram o abraçando e ficam simulando que estão dialogando felizes e começam a orar baixinho pela filha]</span>
                 </div>
@@ -482,12 +485,12 @@
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO > ESPÍRITO SANTO</div>
                     <p>Não, essa já é minha SENHOR!</p>
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > INIMIGO</div>
                     <p><strong>Basta.</strong></p>
                     <span class="action-text">[Silêncio.]</span><br>
                     <span class="action-text action-secondary">[O inimigo abaixa a cabeça e vai se afastando]</span>
@@ -495,17 +498,17 @@
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO > ESPÍRITO SANTO</div>
                     <p>Não Senhor! Foi Ela me deu espaço!<br>Ela quis me ouvir!</p>
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > INIMIGO</div>
                     <p>Você é acusador;<br>Mas não existe condenação onde Eu estou presente!<br>Você tem liberdade para agir pelas sombras mas hoje a Luz entrou nesse lar!<br>Saia e não volte mais!</p>
                 </div>
 
                 <div class="dialogue-card c-inimigo">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">INIMIGO > SAI RECLAMANDO</div>
                     <p>Eu odeio sua Graça!<br>Eu odeio sua misericórdia!<br>Você toma tudo que é meu.<br>Eu odeio seu perdão.<br><strong>Isso ainda não acabou!</strong></p>
                 </div>
             </div>
@@ -525,7 +528,7 @@
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > FILHA</div>
                     <p>Filha…Respira. Eu estou aqui.</p>
                     <p>Eu estava aqui quando você achou que ninguém via.</p>
                     <p><strong>Eu estava.</strong> Mas as mentiras gritavam muito alto em seu coração!.</p>
@@ -534,7 +537,7 @@
                 </div>
 
                 <div class="dialogue-card c-filha">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">FILHA > ESPÍRITO SANTO</div>
                     <span class="action-text">[Ainda chorando, mas respirando melhor.]</span>
                     <p>Eu não entendo… Eu não sei explicar.<br>Parece que tinha um peso em cima de mim.<br>Como se alguma coisa apertasse meu peito o tempo todo.</p>
                     <p>E agora…Eu ainda estou chorando…</p>
@@ -545,7 +548,7 @@
                 </div>
 
                 <div class="dialogue-card c-espirito">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">ESPÍRITO SANTO > FILHA</div>
                     <p>Então venha. Você não vai sozinha.</p>
                     <span class="action-text action-espirito-normal">[O Espírito Santo ajuda a Filha a se levantar. Ele a conduz devagar para fora do quarto, em direção à família. A Mãe, Pai e Filho estão ajoelhados]</span><br>
                     <span class="action-text action-espirito-normal">[A Filha aparece. A mãe tenta se aproximar, mas se segura e respeita o tempo da filha]</span>
@@ -563,7 +566,7 @@
                 </div>
 
                 <div class="dialogue-card c-mae">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">MÃE > FILHA</div>
                     <p>Me perdoa filha. <span class="action-text">[pausa]</span></p>
                     <p>Eu vi sua porta fechada e achei que era fase.<br>Vi seu silêncio e achei que era rebeldia.<br>Vi sua tristeza e achei que era exagero.<br>Mas você estava pedindo socorro.<br>E eu não ouvi.</p>
                     <p>Me perdoa por não ter sentado na sua cama pra conversar!<br>Por não ter insistido.</p>
@@ -572,13 +575,13 @@
                 </div>
 
                 <div class="dialogue-card c-filha">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">FILHA > MÃE E PAI</div>
                     <p>Eu não preciso de pais perfeitos.<br>Só preciso de vocês ao meu lado!<br>Me perdoa também por me fechar.</p>
                     <span class="action-text action-secondary">[O Pai se aproxima. Ele está envergonhado, mas abraça ela junto a mãe]</span>
                 </div>
 
                 <div class="dialogue-card c-pai">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">PAI > FILHO</div>
                     <p>Filho… VEM<br>Eu também preciso pedir perdão pra vocês.<br>Eu cobrei vocês mais que tudo<br>Eu critiquei<br>Eu não soube conversar.<br>Eu olhava para vocês e não enxergava como estavam sofrendo.</p>
                     <p>Mas hoje eu estou vendo vocês.<br><strong>Você é minha filha.</strong><br><strong>Você é minha filho.</strong></p>
                     <p>E eu sinto muito por ter feito vocês duvidarem disso.</p>
@@ -586,14 +589,14 @@
                 </div>
 
                 <div class="dialogue-card c-filho">
-                    <div class="char-name"> <i class="fa-solid fa-arrow-right action-arrow"></i> </div>
+                    <div class="char-name">FILHO > PAIS E IRMÃ</div>
                     <p>Com certeza pai.<br>Eu queria ouvir isso há muito tempo.</p>
                     <p>Me perdoem<br>Eu também errei com todos vocês.<br>Eu senti tanta falta da nossa família.</p>
                     <span class="action-text action-secondary">[ Eles se abraçam. Não precisa ser um abraço eufórico; precisa ser verdadeiro.]</span>
                 </div>
 
                 <div class="dialogue-card c-narracao">
-                    <div class="char-name">NARRADOR <span class="tag tag-audio">[ÁUDIO]</span></div>
+                    <div class="char-name"><i class="fa-solid fa-microphone"></i> NARRADOR <span class="tag tag-audio"><i class="fa-solid fa-music"></i> ÁUDIO</span></div>
                     <p>Restauração não é fingir que nada aconteceu.<br>Restauração é trazer a verdade para a luz.</p>
                     <p>É reconhecer a ferida.<br>É pedir perdão.<br>É escolher amar de novo.</p>
                     <p>A família não precisa perfeita porque nenhum de nós somos.<br>Mas em Jesus a casa volta ao plano original de Deus!</p>
