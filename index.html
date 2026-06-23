@@ -57,7 +57,7 @@
         <input type="range" class="player-timeline" id="player-timeline" value="0" min="0" max="100" step="1" aria-label="Timeline" title="Timeline">
         <span id="player-total-time">0:00</span>
     </div>
-    <div class="player-options" style="display: flex; justify-content: center; gap: 20px; margin-top: 10px; flex-wrap: wrap;">
+    <div class="player-options player-fade-options">
         <label class="fade-toggle">
             <input type="checkbox" id="use-fade" checked>
             <div class="fade-slider"></div>
@@ -662,7 +662,7 @@
                     <p>Me perdoa filha. <span class="stage-direction"><i class="fa-solid fa-masks-theater"></i> pausa</span></p>
                     <p>Eu vi sua porta fechada e achei que era fase.<br>Vi seu silêncio e achei que era rebeldia.<br>Vi sua tristeza e achei que era exagero.<br>Mas você estava pedindo socorro.<br>E eu não ouvi.</p>
                     <p>Me perdoa por não ter sentado na sua cama pra conversar!<br>Por não ter insistido.</p>
-                    <div class="char-header" style="margin-top: 15px;"><div class="char-main">MÃE <span class="char-target-tag t-filho"><i class="fa-solid fa-chevron-right"></i> FILHO</span></div></div>
+                    <div class="char-header mt-15"><div class="char-main">MÃE <span class="char-target-tag t-filho"><i class="fa-solid fa-chevron-right"></i> FILHO</span></div></div>
                     <p>Filho<br>Me perdoa também.<br>Eu te corrigi sem te ouvir.<br>Eu te afastei quando você precisava de direção.</p>
                     <p>Vocês são benção na minha vida!<br>Eu quero ser uma mãe melhor!<br>Eu amo vocês!</p>
                 </div>
@@ -690,8 +690,8 @@
 
                 <!-- Narração Final -->
                 <button class="music-cue" onclick="toggleAudio('audios e trilhas/05-familia-final-narração.mp3', this)"><i class="fa-solid fa-play"></i> [Narração Final]</button>
-                <div class="dialogue-card c-narracao" style="margin-top: 30px;">
-                    <div class="char-header" style="justify-content: space-between; width: 100%;">
+                <div class="dialogue-card c-narracao mt-30">
+                    <div class="char-header header-space-between">
                         <div class="char-main"><i class="fa-solid fa-microphone"></i> NARRAÇÃO FINAL</div>
                     </div>
                     <p>Restauração não é fingir que nada aconteceu.<br>
@@ -710,7 +710,7 @@
 
                     <div class="stage-direction block-direction"><i class="fa-solid fa-masks-theater"></i> ENQUANTO ELE FALA - TODOS JUNTOS AGRADECEM AO SENHOR E SAEM ADORANDO</div>
                     
-                    <div style="text-align: center; font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; color: #64748b; margin-top: 20px; letter-spacing: 2px;">FIM</div>
+                    <div class="end-title">FIM</div>
                 </div>
 
             </div>
