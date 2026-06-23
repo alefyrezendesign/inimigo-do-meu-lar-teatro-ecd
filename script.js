@@ -11,6 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initProgressObserver();
     initDrawerMenu();
+
+    // Mutual exclusion for fade toggles
+    const fadeMusica = document.getElementById('use-fade');
+    const fadeNarracao = document.getElementById('use-fade-narration');
+    
+    if (fadeMusica && fadeNarracao) {
+        fadeMusica.addEventListener('change', () => {
+            if (fadeMusica.checked) fadeNarracao.checked = false;
+        });
+        fadeNarracao.addEventListener('change', () => {
+            if (fadeNarracao.checked) fadeMusica.checked = false;
+        });
+    }
 });
 
 function startReading() {
@@ -156,104 +169,121 @@ function toggleScene(headerElement) {
 
 
 
-// --- AUDIO PLAYER (CUSTOM WITH CROSSFADE) ---
+// --- AUDIO PLAYER LOGIC ---
+const PLAYLIST = [
+    { url: 'audios e trilhas/01-familia-intro-narração.mp3', title: 'Trilha 1: Introdução Família' },
+    { url: 'audios e trilhas/02-suspense-1.mp3', title: 'Trilha 2: Suspense 1' },
+    { url: 'audios e trilhas/03-suspense-2-impacto.mp3', title: 'Trilha 3: Suspense 2 (Impacto)' },
+    { url: 'audios e trilhas/04-epic-motivacional.mp3', title: 'Trilha 4: Épico Motivacional' },
+    { url: 'audios e trilhas/05-familia-final-narração.mp3', title: 'Trilha 5: Narração Final' }
+];
+
 let activeAudio = null;
 let fadingOutAudio = null;
-let activeAudioBtn = null;
+let currentTrackIndex = -1;
 let crossfadeInterval = null;
 
 const playerUI = document.getElementById('custom-audio-player');
+const minimizedUI = document.getElementById('minimized-player');
 const playerTitle = document.getElementById('player-title');
+const minimizedTitle = document.getElementById('minimized-title');
 const playerPlayBtn = document.getElementById('player-play');
+const minimizedPlayBtn = document.getElementById('minimized-play');
 const playerTimeline = document.getElementById('player-timeline');
 const playerCurrentTime = document.getElementById('player-current-time');
 const playerTotalTime = document.getElementById('player-total-time');
-const playerCloseBtn = document.getElementById('player-close');
-const useFadeCheckbox = document.getElementById('use-fade');
 
-// Called when clicking the scene's Audio button
-window.toggleAudio = function(url, buttonElement) {
-    const title = buttonElement.innerHTML.includes('INTRO') ? 'Trilha: Introdução Família' : 'Trilha: Restauração Final';
+// Load a specific track into the player (without playing automatically)
+function loadTrack(index) {
+    if (index < 0 || index >= PLAYLIST.length) return;
+    currentTrackIndex = index;
+    const track = PLAYLIST[index];
     
-    // If clicking the same track
-    if (activeAudio && activeAudio.src.includes(encodeURI(url.replace(/ /g, '%20')))) {
-        if (!playerUI.classList.contains('visible')) {
-            playerUI.classList.remove('hidden');
-            setTimeout(() => playerUI.classList.add('visible'), 10);
-        }
-        return;
-    }
+    playerTitle.innerText = track.title;
+    minimizedTitle.innerText = track.title;
     
-    // Prepare the new track in the UI, but don't play yet
-    playerTitle.innerText = title;
-    playerUI.dataset.pendingUrl = url;
-    playerUI.dataset.pendingBtnId = Math.random().toString(); // unique id hack
-    buttonElement.dataset.playerId = playerUI.dataset.pendingBtnId;
+    playerUI.dataset.pendingUrl = track.url;
     
-    // Reset timeline
+    // Reset UI
     playerTimeline.value = 0;
     playerCurrentTime.innerText = "00:00";
     playerTotalTime.innerText = "00:00";
-    playerPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-    playerPlayBtn.classList.remove('playing');
-    
-    // Show player
-    playerUI.classList.remove('hidden');
-    setTimeout(() => playerUI.classList.add('visible'), 10);
-    
-    // Auto-play after 500ms for convenience, or wait for user?
-    // Let's NOT auto play as requested in the plan, or wait, user didn't specify.
-    // If we auto-play, it's faster for the operator. Let's auto play.
-    setTimeout(() => togglePlayerPlay(buttonElement), 300);
+    updatePlayState(false);
+
+    // Update Next/Prev buttons disabled state
+    const prevBtn = document.getElementById('player-prev');
+    const nextBtn = document.getElementById('player-next');
+    if (prevBtn) prevBtn.disabled = (currentTrackIndex === 0);
+    if (nextBtn) nextBtn.disabled = (currentTrackIndex === PLAYLIST.length - 1);
 }
 
-function formatTime(seconds) {
-    if (isNaN(seconds)) return "00:00";
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+// Called when clicking the scene's Audio button
+window.toggleAudio = function(url, buttonElement) {
+    // Find index in playlist
+    let trackIndex = PLAYLIST.findIndex(t => url.includes(t.url) || t.url.includes(url));
+    if (trackIndex === -1) {
+        // Fallback
+        trackIndex = url.includes('01') ? 0 : 1;
+    }
+    
+    // If it's the currently active audio, just toggle play/pause
+    if (activeAudio && activeAudio.src.includes(encodeURI(url.replace(/ /g, '%20')))) {
+        openPlayer();
+        return;
+    }
+
+    // Otherwise, load this new track and open player (don't play yet)
+    loadTrack(trackIndex);
+    openPlayer();
 }
 
-window.togglePlayerPlay = function(sourceButton = null) {
+// Play/Pause logic with Crossfade
+window.togglePlayerPlay = function() {
     const url = playerUI.dataset.pendingUrl;
-    if (!url && !activeAudio) return;
-
-    // If we already have an active audio for this URL
+    
     if (activeAudio && (!url || activeAudio.src.includes(encodeURI(url.replace(/ /g, '%20'))))) {
+        // Toggle play/pause on current active audio
         if (activeAudio.paused) {
             activeAudio.play();
-            playerPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-            playerPlayBtn.classList.add('playing');
-            if (activeAudioBtn) activeAudioBtn.classList.add('playing-active');
+            updatePlayState(true);
         } else {
             activeAudio.pause();
-            playerPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-            playerPlayBtn.classList.remove('playing');
-            if (activeAudioBtn) activeAudioBtn.classList.remove('playing-active');
+            updatePlayState(false);
         }
         return;
     }
+
+    if (!url) return;
 
     // Start a NEW audio track
     const newAudio = new Audio(url);
     
-    // Find the button that triggered this
-    const btnId = playerUI.dataset.pendingBtnId;
-    const sceneBtn = sourceButton || document.querySelector(`button[data-player-id="${btnId}"]`);
+    const useFade = document.getElementById('use-fade').checked;
+    const useFadeNarration = document.getElementById('use-fade-narration').checked;
     
-    if (activeAudioBtn) {
-        activeAudioBtn.classList.remove('playing-active');
-        activeAudioBtn.innerHTML = activeAudioBtn.innerHTML.replace('TOCANDO...', 'CONTINUAR').replace('fa-pause', 'fa-play');
-    }
-    
-    activeAudioBtn = sceneBtn;
-    if (activeAudioBtn) {
-        activeAudioBtn.classList.add('playing-active');
-        activeAudioBtn.innerHTML = activeAudioBtn.innerHTML.replace('OUVIR ÁUDIO', 'TOCANDO...').replace('CONTINUAR', 'TOCANDO...').replace('PLAY:', 'TOCANDO...').replace('fa-play', 'fa-pause');
-    }
-
-    // CROSSFADE LOGIC
-    if (activeAudio && useFadeCheckbox.checked) {
+    if (activeAudio && useFadeNarration) {
+        // Fade out music, then start narration
+        fadingOutAudio = activeAudio;
+        let fadeOutVol = fadingOutAudio.volume;
+        
+        clearInterval(crossfadeInterval);
+        const step = 1 / 20; // 2 seconds fade out
+        
+        crossfadeInterval = setInterval(() => {
+            fadeOutVol = Math.max(0, fadeOutVol - step);
+            if (fadingOutAudio) fadingOutAudio.volume = fadeOutVol;
+            
+            if (fadeOutVol <= 0) {
+                clearInterval(crossfadeInterval);
+                if (fadingOutAudio) fadingOutAudio.pause();
+                fadingOutAudio = null;
+                // Start narration at full volume after fade completes
+                newAudio.volume = 1;
+                newAudio.play().catch(console.error);
+            }
+        }, 100);
+    } else if (activeAudio && useFade) {
+        // Normal crossfade: fade out old, fade in new
         fadingOutAudio = activeAudio;
         let fadeOutVol = fadingOutAudio.volume;
         
@@ -261,8 +291,7 @@ window.togglePlayerPlay = function(sourceButton = null) {
         newAudio.play().catch(console.error);
         
         clearInterval(crossfadeInterval);
-        // 3 seconds fade = 30 steps of 100ms
-        const step = 1 / 30; 
+        const step = 1 / 20; // 2 seconds
         
         crossfadeInterval = setInterval(() => {
             fadeOutVol = Math.max(0, fadeOutVol - step);
@@ -278,19 +307,26 @@ window.togglePlayerPlay = function(sourceButton = null) {
             }
         }, 100);
     } else {
-        if (activeAudio) activeAudio.pause();
+        // Hard cut
+        if (fadingOutAudio) {
+            fadingOutAudio.pause();
+            fadingOutAudio = null;
+        }
+        if (activeAudio) {
+            activeAudio.pause();
+            activeAudio.volume = 1;
+        }
+        clearInterval(crossfadeInterval);
         newAudio.volume = 1;
         newAudio.play().catch(console.error);
     }
 
     activeAudio = newAudio;
     playerUI.dataset.pendingUrl = ""; // Clear pending
-    
-    playerPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-    playerPlayBtn.classList.add('playing');
+    updatePlayState(true);
 
     activeAudio.addEventListener('timeupdate', () => {
-        if (!activeAudio) return;
+        if (!activeAudio || activeAudio !== newAudio) return;
         playerCurrentTime.innerText = formatTime(activeAudio.currentTime);
         playerTotalTime.innerText = formatTime(activeAudio.duration);
         if (activeAudio.duration) {
@@ -299,26 +335,89 @@ window.togglePlayerPlay = function(sourceButton = null) {
     });
 
     activeAudio.addEventListener('ended', () => {
-        playerPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-        playerPlayBtn.classList.remove('playing');
-        if (activeAudioBtn) {
-            activeAudioBtn.classList.remove('playing-active');
-            activeAudioBtn.innerHTML = '<i class="fa-solid fa-check"></i> FINALIZADO';
-        }
+        updatePlayState(false);
     });
+}
+
+function updatePlayState(isPlaying) {
+    const icon = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+    playerPlayBtn.innerHTML = icon;
+    minimizedPlayBtn.innerHTML = icon;
+    if (isPlaying) {
+        playerPlayBtn.classList.add('playing');
+        minimizedPlayBtn.classList.add('playing');
+        document.querySelector('.minimized-label').innerText = 'Reproduzindo';
+    } else {
+        playerPlayBtn.classList.remove('playing');
+        minimizedPlayBtn.classList.remove('playing');
+        document.querySelector('.minimized-label').innerText = 'Em espera';
+    }
+}
+
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    
+    if (h > 0) {
+        return h + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    }
+    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+}
+
+// UI Controls
+function openPlayer() {
+    minimizedUI.classList.remove('visible');
+    setTimeout(() => minimizedUI.classList.add('hidden'), 400);
+    
+    playerUI.classList.remove('hidden');
+    setTimeout(() => playerUI.classList.add('visible'), 10);
+}
+
+function minimizePlayer() {
+    playerUI.classList.remove('visible');
+    setTimeout(() => playerUI.classList.add('hidden'), 400);
+    
+    minimizedUI.classList.remove('hidden');
+    setTimeout(() => minimizedUI.classList.add('visible'), 10);
+}
+
+function closePlayer() {
+    playerUI.classList.remove('visible');
+    minimizedUI.classList.remove('visible');
+    setTimeout(() => {
+        playerUI.classList.add('hidden');
+        minimizedUI.classList.add('hidden');
+    }, 400);
+    if (activeAudio) {
+        activeAudio.pause();
+        updatePlayState(false);
+    }
+}
+
+window.restorePlayer = function() {
+    openPlayer();
 }
 
 // Event Listeners for Player UI
-if (playerPlayBtn) {
-    playerPlayBtn.addEventListener('click', () => togglePlayerPlay());
-}
+document.getElementById('player-minimize').addEventListener('click', minimizePlayer);
+document.getElementById('player-close').addEventListener('click', closePlayer);
+playerPlayBtn.addEventListener('click', togglePlayerPlay);
 
-if (playerCloseBtn) {
-    playerCloseBtn.addEventListener('click', () => {
-        playerUI.classList.remove('visible');
-        setTimeout(() => playerUI.classList.add('hidden'), 400);
-    });
-}
+document.getElementById('player-next').addEventListener('click', () => {
+    const nextIndex = currentTrackIndex + 1;
+    if (nextIndex < PLAYLIST.length) {
+        loadTrack(nextIndex);
+    }
+});
+
+document.getElementById('player-prev').addEventListener('click', () => {
+    const prevIndex = currentTrackIndex - 1;
+    if (prevIndex >= 0) {
+        loadTrack(prevIndex);
+    }
+});
 
 if (playerTimeline) {
     playerTimeline.addEventListener('input', (e) => {
@@ -327,48 +426,4 @@ if (playerTimeline) {
             activeAudio.currentTime = seekTime;
         }
     });
-}
-
-
-// --- AUDIO PLAYER ---
-let currentAudio = null;
-let currentAudioButton = null;
-
-function toggleAudio(url, buttonElement) {
-    const defaultText = buttonElement.innerHTML.includes('INTRO') ? 'PLAY: INTRODUÇÃO' : 'PLAY: FINAL';
-
-    if (currentAudio && currentAudio.src.includes(encodeURI(url.replace(/ /g, '%20')))) {
-        if (!currentAudio.paused) {
-            currentAudio.pause();
-            buttonElement.innerHTML = '<i class="fa-solid fa-play"></i> CONTINUAR';
-            buttonElement.classList.remove('playing');
-        } else {
-            currentAudio.play();
-            buttonElement.innerHTML = '<i class="fa-solid fa-pause"></i> TOCANDO...';
-            buttonElement.classList.add('playing');
-        }
-        return;
-    }
-    
-    if (currentAudio) {
-        currentAudio.pause();
-        if (currentAudioButton) {
-            const prevDefaultText = currentAudioButton.innerHTML.includes('FINAL') ? 'PLAY: FINAL' : 'PLAY: INTRODUÇÃO';
-            currentAudioButton.innerHTML = '<i class="fa-solid fa-play"></i> ' + prevDefaultText;
-            currentAudioButton.classList.remove('playing');
-        }
-    }
-    
-    currentAudio = new Audio(url);
-    currentAudioButton = buttonElement;
-    
-    currentAudio.play().catch(e => alert("Erro ao reproduzir áudio: " + e.message));
-    buttonElement.innerHTML = '<i class="fa-solid fa-pause"></i> TOCANDO...';
-    buttonElement.classList.add('playing');
-    
-    currentAudio.onended = () => {
-        buttonElement.innerHTML = '<i class="fa-solid fa-check"></i> FINALIZADO';
-        buttonElement.classList.remove('playing');
-        currentAudio = null;
-    };
 }
